@@ -1,0 +1,17 @@
+# OS
+.DS_Store
+
+# エディタ / AI ツール
+.vscode/
+.cursor/
+.codex/
+.antigravity/
+.claude/
+
+# 環境変数・シークレット
+.env
+.env.*
+
+# ログ・一時ファイル
+*.log
+*.tmp

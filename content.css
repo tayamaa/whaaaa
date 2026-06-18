@@ -1,0 +1,354 @@
+/* whaaaa UI — ページ側 CSS の干渉を避けるため明示指定。 */
+
+#whaaaa-root {
+  all: initial;
+}
+
+/* ページ本体をサイドバー分だけ左に押し出す（オーバーレイにしない） */
+html.wa-pushed {
+  margin-right: 300px !important;
+  transition: margin-right 0.15s ease !important;
+}
+
+#whaaaa-root .wa-sidebar,
+#whaaaa-root .wa-popup,
+#whaaaa-root .wa-highlight,
+#whaaaa-root .wa-sidebar *,
+#whaaaa-root .wa-popup * {
+  box-sizing: border-box;
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    "Hiragino Sans", "Noto Sans JP", sans-serif;
+}
+
+/* ハイライト枠: 要素の外側に線だけ引く（中身は塗らない） */
+#whaaaa-root .wa-highlight {
+  position: fixed;
+  z-index: 2147483646;
+  pointer-events: none;
+  display: none;
+  background: transparent;
+  border-radius: 2px;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.5), 0 0 0 2px rgba(120, 120, 120, 0.35);
+  transition: top 0.04s linear, left 0.04s linear, width 0.04s linear,
+    height 0.04s linear;
+}
+#whaaaa-root .wa-highlight.wa-hl-locked {
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.9), 0 0 0 2px rgba(120, 120, 120, 0.7);
+}
+
+/* padding / margin バンドのハイライト（パネルの辺セルを hover した時） */
+#whaaaa-root .wa-region {
+  position: fixed;
+  z-index: 2147483646;
+  pointer-events: none;
+  display: none;
+}
+
+/* サイドバー */
+#whaaaa-root .wa-sidebar {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 300px;
+  height: 100vh;
+  z-index: 2147483647;
+  background: #1e1e1e;
+  color: #ffffff;
+  font-size: 11px;
+  line-height: 1.4;
+  /* 1px の境界線はレイアウトに影響しない box-shadow で描く（左右の内側余白を対称に保つ） */
+  box-shadow: -1px 0 0 0 #000, -2px 0 16px rgba(0, 0, 0, 0.4);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* ポップアップ（カーソル周辺の浮遊パネル） */
+#whaaaa-root .wa-popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 280px;
+  max-height: calc(100vh - 16px);
+  z-index: 2147483647;
+  background: #1e1e1e;
+  color: #ffffff;
+  font-size: 11px;
+  line-height: 1.4;
+  border: 1px solid #000;
+  border-radius: 8px;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* 共有パネル（サイドバー / ポップアップ両方の中身） */
+#whaaaa-root .wa-panel {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+/* モード切替ボタン（× の隣） */
+#whaaaa-root .wa-mode {
+  appearance: none;
+  flex: 0 0 auto;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: none;
+  border-radius: 5px;
+  background: transparent;
+  color: #8c8c8c;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#whaaaa-root .wa-mode svg {
+  width: 15px;
+  height: 15px;
+  display: block;
+}
+#whaaaa-root .wa-mode:hover {
+  color: #fff;
+  background: #383838;
+}
+
+/* ヘッダー（タイプ名 + 閉じる） */
+#whaaaa-root .wa-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 10px 10px 16px;
+  flex: 0 0 auto;
+}
+/* タブ行 */
+#whaaaa-root .wa-tabs {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  flex: 0 0 auto;
+  padding: 2px 12px 10px;
+  border-bottom: 1px solid #2c2c2c;
+}
+#whaaaa-root .wa-tab {
+  appearance: none;
+  border: none;
+  background: transparent;
+  color: #8c8c8c;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 5px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+#whaaaa-root .wa-tab:hover {
+  color: #cfcfcf;
+}
+#whaaaa-root .wa-tab.wa-tab-active {
+  background: #383838;
+  color: #fff;
+}
+#whaaaa-root .wa-close {
+  appearance: none;
+  border: none;
+  background: transparent;
+  color: #8c8c8c;
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0 4px;
+  border-radius: 5px;
+  flex: 0 0 auto;
+}
+#whaaaa-root .wa-close:hover {
+  color: #fff;
+  background: #383838;
+}
+
+/* タイプ（ヘッダー行の大きな見出し） */
+#whaaaa-root .wa-type {
+  flex: 1 1 auto;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+#whaaaa-root .wa-type-name {
+  font-size: 15px;
+  font-weight: 600;
+  color: #fff;
+}
+#whaaaa-root .wa-type-sel {
+  font-size: 11px;
+  color: #7d7d7d;
+  margin-left: 6px;
+}
+#whaaaa-root .wa-hint {
+  color: #7d7d7d;
+  font-size: 11px;
+}
+#whaaaa-root .wa-nostate {
+  font-size: 10px;
+  color: #b06a00;
+  margin-left: 8px;
+}
+
+/* 本体スクロール */
+#whaaaa-root .wa-body {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  /* スクロールバーの有無で中身の幅が変わらないよう、ガターを常に確保 */
+  scrollbar-gutter: stable;
+}
+#whaaaa-root .wa-body::-webkit-scrollbar {
+  width: 8px;
+}
+#whaaaa-root .wa-body::-webkit-scrollbar-thumb {
+  background: #3a3a3a;
+  border-radius: 4px;
+}
+
+/* セクション */
+#whaaaa-root .wa-section {
+  /* 右は scrollbar-gutter(8px) ぶん詰め、ガターと合わせて左右とも実質 16px に揃える */
+  padding: 12px 8px 12px 16px;
+  border-bottom: 1px solid #2c2c2c;
+}
+#whaaaa-root .wa-sec-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 10px;
+}
+
+/* 小さなグレーラベル行 */
+#whaaaa-root .wa-sub {
+  display: grid;
+  gap: 8px;
+  margin: 8px 0 4px;
+}
+#whaaaa-root .wa-sub span {
+  font-size: 11px;
+  color: #8c8c8c;
+}
+
+/* フィールドのグリッド */
+#whaaaa-root .wa-grid {
+  display: grid;
+  gap: 8px;
+  position: relative;
+}
+/* 連続するグリッド同士の縦間隔（例: font-family の下に weight/size） */
+#whaaaa-root .wa-grid + .wa-grid {
+  margin-top: 8px;
+}
+#whaaaa-root .wa-cols-1 {
+  grid-template-columns: 1fr;
+}
+#whaaaa-root .wa-cols-2 {
+  grid-template-columns: 1fr 1fr;
+}
+
+/* フィールド */
+#whaaaa-root .wa-field {
+  appearance: none;
+  border: 1px solid transparent;
+  background: #2c2c2c;
+  border-radius: 6px;
+  height: 32px;
+  padding: 0 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  color: #fff;
+  font-size: 11px;
+  text-align: left;
+  position: relative;
+  overflow: hidden;
+  min-width: 0;
+}
+#whaaaa-root .wa-field:hover {
+  border-color: #7a7a7a;
+}
+#whaaaa-root .wa-flabel {
+  color: #8c8c8c;
+  flex: 0 0 auto;
+  font-size: 11px;
+}
+/* padding / margin / R の 1x4（横一列）。横幅に収めるため右ガターなし・詰めめ */
+#whaaaa-root .wa-quad {
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+  padding-right: 0;
+}
+#whaaaa-root .wa-quad .wa-field {
+  padding: 0 5px;
+  gap: 4px;
+}
+#whaaaa-root .wa-quad .wa-fval {
+  font-size: 10px;
+}
+
+/* フィールド先頭のアイコン（padding/margin の辺・R の隅） */
+#whaaaa-root .wa-ficon {
+  flex: 0 0 auto;
+  width: 16px;
+  height: 16px;
+  color: #9a9a9a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#whaaaa-root .wa-ficon svg {
+  width: 16px;
+  height: 16px;
+  display: block;
+}
+#whaaaa-root .wa-fval {
+  color: #e6e6e6;
+  flex: 1 1 auto;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+#whaaaa-root .wa-fsuffix {
+  color: #8c8c8c;
+  flex: 0 0 auto;
+  font-size: 11px;
+}
+/* カラーチップ（枠なし・ベタ） */
+#whaaaa-root .wa-chip {
+  flex: 0 0 auto;
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+  background: var(--c);
+}
+#whaaaa-root .wa-field-color .wa-fval {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Copied フィードバック */
+#whaaaa-root .wa-copied {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #e2e2e2;
+  color: #1e1e1e;
+  font-size: 11px;
+  font-weight: 600;
+  opacity: 0;
+  transition: opacity 0.1s ease;
+  pointer-events: none;
+}
+#whaaaa-root .wa-field.wa-show-copied .wa-copied {
+  opacity: 1;
+}
